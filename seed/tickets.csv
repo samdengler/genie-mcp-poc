@@ -1,0 +1,41 @@
+ticket_id,account_id,opened_date,severity,status,reporter_email,summary
+T0001,A021,2025-10-01,medium,closed,noel@umbercoffeeroasters.example,Billing address change
+T0002,A014,2025-10-08,high,open,logan@northwindoutfitters.example,Report shows wrong currency
+T0003,A002,2025-10-15,high,open,avery@birchwoodfoods.example,Invoice total does not match order
+T0004,A012,2025-10-24,medium,closed,noel@lumenpharmacy.example,Invoice total does not match order
+T0005,A006,2025-11-01,low,open,indy@foxglovemedia.example,Report shows wrong currency
+T0006,A020,2025-11-13,low,closed,emerson@tidewatermarine.example,Invoice total does not match order
+T0007,A021,2025-11-22,medium,closed,parker@umbercoffeeroasters.example,API returns timeout errors
+T0008,A015,2025-11-27,medium,open,kai@orchidanalytics.example,Integration sync stopped overnight
+T0009,A009,2025-12-05,low,closed,avery@ironvalemining.example,Invoice total does not match order
+T0010,A021,2025-12-28,low,closed,wren@umbercoffeeroasters.example,Billing address change
+T0011,A010,2026-01-02,low,closed,zion@juniperhotels.example,Integration sync stopped overnight
+T0012,A003,2026-01-08,low,closed,casey@cobaltrobotics.example,API returns timeout errors
+T0013,A019,2026-01-11,medium,closed,sage@sablesecurity.example,Request to add a new user seat
+T0014,A010,2026-01-21,low,closed,zion@juniperhotels.example,Billing address change
+T0015,A002,2026-01-22,low,closed,parker@birchwoodfoods.example,Shipment arrived damaged
+T0016,A012,2026-01-31,low,closed,harper@lumenpharmacy.example,Login fails after password reset
+T0017,A008,2026-02-18,medium,closed,reese@harborfreightlines.example,Report shows wrong currency
+T0018,A012,2026-02-18,high,closed,emerson@lumenpharmacy.example,Data export missing columns
+T0019,A011,2026-03-07,high,closed,morgan@kestrelaviation.example,Request to add a new user seat
+T0020,A015,2026-03-12,medium,closed,casey@orchidanalytics.example,Shipment arrived damaged
+T0021,A006,2026-03-21,high,closed,jordan@foxglovemedia.example,Billing address change
+T0022,A019,2026-04-03,high,open,blake@sablesecurity.example,Login fails after password reset
+T0023,A016,2026-04-11,low,open,noel@pinecrestschools.example,Invoice total does not match order
+T0024,A007,2026-04-17,high,closed,jordan@graniteinsurance.example,Report shows wrong currency
+T0025,A023,2026-05-06,low,closed,finley@willowhealth.example,Login fails after password reset
+T0026,A010,2026-05-24,low,closed,val@juniperhotels.example,Integration sync stopped overnight
+T0027,A010,2026-06-08,medium,closed,jordan@juniperhotels.example,Report shows wrong currency
+T0028,A005,2026-06-26,high,open,noel@evergreenclinics.example,Data export missing columns
+T0029,A018,2026-07-06,medium,closed,taylor@redwoodsolar.example,API returns timeout errors
+T0030,A017,2026-07-17,low,closed,gray@quarrybuildingsupply.example,Shipment arrived damaged
+T0031,A011,2026-07-19,low,closed,sage@kestrelaviation.example,Shipment arrived damaged
+T0032,A002,2026-07-25,low,closed,wren@birchwoodfoods.example,Billing address change
+T0033,A012,2026-08-10,medium,open,wren@lumenpharmacy.example,Request to add a new user seat
+T0034,A005,2026-08-13,high,closed,quinn@evergreenclinics.example,Login fails after password reset
+T0035,A004,2026-08-27,medium,closed,noel@dunmoretextiles.example,Request to add a new user seat
+T0036,A001,2026-09-23,medium,open,val@acmelogistics.example,Billing address change
+T0037,A018,2026-09-25,low,open,quinn@redwoodsolar.example,Invoice total does not match order
+T0038,A001,2026-10-06,medium,open,parker@acmelogistics.example,Integration sync stopped overnight
+T0039,A023,2026-10-09,medium,open,quinn@willowhealth.example,Shipment arrived damaged
+T0040,A023,2026-10-15,low,open,val@willowhealth.example,Dashboard loads slowly

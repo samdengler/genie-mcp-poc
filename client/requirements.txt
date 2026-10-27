@@ -1,0 +1,4 @@
+# For pip users. uv reads the same list from the script header in genie_client.py.
+databricks-sdk>=0.60
+databricks-mcp>=0.9
+mcp>=2

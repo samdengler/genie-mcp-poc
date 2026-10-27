@@ -1,0 +1,187 @@
+{
+  "asked_at": "2026-10-23T23:11:57-04:00",
+  "profile": "carol",
+  "user": "carol@example.com",
+  "server": "genie-one",
+  "url": "https://<workspace-host>/ai-gateway/mcp-services/system.ai.genie_one_mcp",
+  "question": "Which of my accounts have an open high-severity support ticket, and what did they order last quarter?",
+  "seconds": 47,
+  "status": "completed",
+  "answer": "The same four accounts flagged previously for open high-severity tickets all placed orders in Q3 2026 (last quarter: Jul 1\u2013Sep 30), confirming they remain active, ordering customers despite their open issues.\n\n## Accounts with Open High-Severity Tickets & Last-Quarter Orders\n\n| Account | Region | Annual Revenue | Orders Last Quarter | Order Value Last Quarter |\n|---|---|---|---|---|\n| **Sable Security** | West | $45.2M | 1 | $70,922 |\n| **Northwind Outfitters** | West | $38.2M | 3 | $262,802 |\n| **Evergreen Clinics** | East | $26.6M | 3 | $521,472 |\n| **Birchwood Foods** | East | $13.7M | 4 | $571,136 |\n\n| account_id | account_name | region | annual_revenue | orders_last_quarter | total_order_amount_last_quarter |\n| --- | --- | --- | --- | --- | --- |\n| A019 | Sable Security | West | 45209000.00 | 1 | 70922.03 |\n| A014 | Northwind Outfitters | West | 38155000.00 | 3 | 262801.53 |\n| A005 | Evergreen Clinics | East | 26612000.00 | 3 | 521472.43 |\n| A002 | Birchwood Foods | East | 13743000.00 | 4 | 571135.77 |\n\n**Key observations:**\n- **Birchwood Foods** and **Evergreen Clinics**, despite having the smallest and third\u2011largest annual revenue among this group respectively, generated the highest order volumes last quarter (over $500K each), making their open ticket resolution especially relevant to near-term revenue continuity.\n- **Sable Security**, the largest account by revenue ($45.2M), placed only a single order last quarter \u2014 worth monitoring whether the open ticket is affecting purchasing activity.\n- All four accounts carry an `active` relationship status (not `at_risk`), per the customer accounts table.\n\nThis reuses the account/ticket join logic established in our prior conversation on open high-severity tickets and account revenue, extended here with order data for last quarter. [Open high-severity tickets and account revenue](https://<workspace-host>/one/chat/threads/dfede217864840a08e0d1e62a729d951?o=<workspace-id>) [poc.support.tickets](https://<workspace-host>/explore/data/poc/support/tickets?isDbOne=true&utm_source=one-chat&o=<workspace-id>) [poc.sales.customer_accounts](https://<workspace-host>/explore/data/poc/sales/customer_accounts?isDbOne=true&utm_source=one-chat&o=<workspace-id>) [poc.sales.orders](https://<workspace-host>/explore/data/poc/sales/orders?isDbOne=true&utm_source=one-chat&o=<workspace-id>)",
+  "queries": [
+    {
+      "sql": "WITH flagged_accounts AS (\n  SELECT DISTINCT ca.account_id, ca.account_name, ca.region, ca.annual_revenue, ca.status\n  FROM poc.support.tickets t\n  JOIN poc.sales.customer_accounts ca ON t.account_id = ca.account_id\n  WHERE t.status = 'open' AND t.severity = 'high'\n)\nSELECT fa.account_id, fa.account_name, fa.region, fa.annual_revenue, fa.status,\n       o.order_id, o.order_date, o.amount\nFROM flagged_accounts fa\nLEFT JOIN poc.sales.orders o\n  ON fa.account_id = o.account_id\n  AND o.order_date >= '2026-07-01' AND o.order_date < '2026-10-01'\nORDER BY fa.annual_revenue DESC, o.order_date",
+      "columns": [
+        "account_id",
+        "account_name",
+        "region",
+        "annual_revenue",
+        "status",
+        "order_id",
+        "order_date",
+        "amount"
+      ],
+      "rows": [
+        [
+          "A019",
+          "Sable Security",
+          "West",
+          "45209000.00",
+          "active",
+          "O0075",
+          "2026-07-16",
+          "70922.03"
+        ],
+        [
+          "A014",
+          "Northwind Outfitters",
+          "West",
+          "38155000.00",
+          "active",
+          "O0086",
+          "2026-08-08",
+          "80179.62"
+        ],
+        [
+          "A014",
+          "Northwind Outfitters",
+          "West",
+          "38155000.00",
+          "active",
+          "O0088",
+          "2026-08-13",
+          "97694.25"
+        ],
+        [
+          "A014",
+          "Northwind Outfitters",
+          "West",
+          "38155000.00",
+          "active",
+          "O0091",
+          "2026-08-15",
+          "84927.66"
+        ],
+        [
+          "A005",
+          "Evergreen Clinics",
+          "East",
+          "26612000.00",
+          "active",
+          "O0074",
+          "2026-07-14",
+          "65313.73"
+        ],
+        [
+          "A005",
+          "Evergreen Clinics",
+          "East",
+          "26612000.00",
+          "active",
+          "O0078",
+          "2026-07-25",
+          "247229.30"
+        ],
+        [
+          "A005",
+          "Evergreen Clinics",
+          "East",
+          "26612000.00",
+          "active",
+          "O0082",
+          "2026-07-28",
+          "208929.40"
+        ],
+        [
+          "A002",
+          "Birchwood Foods",
+          "East",
+          "13743000.00",
+          "active",
+          "O0085",
+          "2026-08-06",
+          "11588.92"
+        ],
+        [
+          "A002",
+          "Birchwood Foods",
+          "East",
+          "13743000.00",
+          "active",
+          "O0102",
+          "2026-08-28",
+          "170626.86"
+        ],
+        [
+          "A002",
+          "Birchwood Foods",
+          "East",
+          "13743000.00",
+          "active",
+          "O0111",
+          "2026-09-16",
+          "243683.76"
+        ],
+        [
+          "A002",
+          "Birchwood Foods",
+          "East",
+          "13743000.00",
+          "active",
+          "O0119",
+          "2026-09-30",
+          "145236.23"
+        ]
+      ],
+      "total_row_count": 11
+    },
+    {
+      "sql": "WITH flagged_accounts AS (\n  SELECT DISTINCT ca.account_id, ca.account_name, ca.region, ca.annual_revenue\n  FROM poc.support.tickets t\n  JOIN poc.sales.customer_accounts ca ON t.account_id = ca.account_id\n  WHERE t.status = 'open' AND t.severity = 'high'\n)\nSELECT fa.account_id, fa.account_name, fa.region, fa.annual_revenue,\n       COUNT(o.order_id) AS orders_last_quarter,\n       COALESCE(SUM(o.amount),0) AS total_order_amount_last_quarter\nFROM flagged_accounts fa\nLEFT JOIN poc.sales.orders o\n  ON fa.account_id = o.account_id\n  AND o.order_date >= '2026-07-01' AND o.order_date < '2026-10-01'\nGROUP BY fa.account_id, fa.account_name, fa.region, fa.annual_revenue\nORDER BY fa.annual_revenue DESC",
+      "columns": [
+        "account_id",
+        "account_name",
+        "region",
+        "annual_revenue",
+        "orders_last_quarter",
+        "total_order_amount_last_quarter"
+      ],
+      "rows": [
+        [
+          "A019",
+          "Sable Security",
+          "West",
+          "45209000.00",
+          "1",
+          "70922.03"
+        ],
+        [
+          "A014",
+          "Northwind Outfitters",
+          "West",
+          "38155000.00",
+          "3",
+          "262801.53"
+        ],
+        [
+          "A005",
+          "Evergreen Clinics",
+          "East",
+          "26612000.00",
+          "3",
+          "521472.43"
+        ],
+        [
+          "A002",
+          "Birchwood Foods",
+          "East",
+          "13743000.00",
+          "4",
+          "571135.77"
+        ]
+      ],
+      "total_row_count": 4
+    }
+  ],
+  "conversation_id": "504ae41e9d0d4f25af5fb8f197485bb9",
+  "deep_link": "https://<workspace-host>/one/chat/threads/504ae41e9d0d4f25af5fb8f197485bb9?o=<workspace-id>&utm_source=genie_chat_mcp"
+}

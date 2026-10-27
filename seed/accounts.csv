@@ -1,0 +1,25 @@
+account_id,account_name,region,owner_email,contact_name,contact_email,contact_phone,annual_revenue,status
+A001,Acme Logistics,East,alice@example.com,Avery Abbott,avery.abbott@acmelogistics.example,+1-202-555-0100,17077000.00,active
+A002,Birchwood Foods,East,alice@example.com,Blake Hughes,blake.hughes@birchwoodfoods.example,+1-202-555-0101,13743000.00,active
+A003,Cobalt Robotics,East,alice@example.com,Casey Olsen,casey.olsen@cobaltrobotics.example,+1-202-555-0102,16275000.00,active
+A004,Dunmore Textiles,East,alice@example.com,Devon Walsh,devon.walsh@dunmoretextiles.example,+1-202-555-0103,2000000.00,active
+A005,Evergreen Clinics,East,alice@example.com,Emerson Ellis,emerson.ellis@evergreenclinics.example,+1-202-555-0104,26612000.00,active
+A006,Foxglove Media,East,alice@example.com,Finley Lopez,finley.lopez@foxglovemedia.example,+1-202-555-0105,20946000.00,active
+A007,Granite Insurance,East,alice@example.com,Gray Tran,gray.tran@graniteinsurance.example,+1-202-555-0106,39124000.00,active
+A008,Harbor Freight Lines,East,alice@example.com,Harper Brooks,harper.brooks@harborfreightlines.example,+1-202-555-0107,23772000.00,at_risk
+A009,Ironvale Mining,East,alice@example.com,Indy Ito,indy.ito@ironvalemining.example,+1-202-555-0108,26927000.00,at_risk
+A010,Juniper Hotels,East,alice@example.com,Jordan Patel,jordan.patel@juniperhotels.example,+1-202-555-0109,30399000.00,active
+A011,Kestrel Aviation,East,alice@example.com,Kai Young,kai.young@kestrelaviation.example,+1-202-555-0110,39577000.00,active
+A012,Lumen Pharmacy,East,alice@example.com,Logan Foster,logan.foster@lumenpharmacy.example,+1-202-555-0111,10189000.00,active
+A013,Maple Street Bank,West,bob@example.com,Morgan Moreno,morgan.moreno@maplestreetbank.example,+1-202-555-0112,4050000.00,active
+A014,Northwind Outfitters,West,bob@example.com,Noel Usman,noel.usman@northwindoutfitters.example,+1-202-555-0113,38155000.00,active
+A015,Orchid Analytics,West,bob@example.com,Oakley Chen,oakley.chen@orchidanalytics.example,+1-202-555-0114,24999000.00,active
+A016,Pinecrest Schools,West,bob@example.com,Parker James,parker.james@pinecrestschools.example,+1-202-555-0115,3123000.00,active
+A017,Quarry Building Supply,West,bob@example.com,Quinn Reyes,quinn.reyes@quarrybuildingsupply.example,+1-202-555-0116,47377000.00,active
+A018,Redwood Solar,West,bob@example.com,Reese Zhou,reese.zhou@redwoodsolar.example,+1-202-555-0117,18363000.00,active
+A019,Sable Security,West,bob@example.com,Sage Garcia,sage.garcia@sablesecurity.example,+1-202-555-0118,45209000.00,active
+A020,Tidewater Marine,West,bob@example.com,Taylor Nash,taylor.nash@tidewatermarine.example,+1-202-555-0119,34479000.00,active
+A021,Umber Coffee Roasters,West,bob@example.com,Umi Vega,umi.vega@umbercoffeeroasters.example,+1-202-555-0120,33473000.00,active
+A022,Vantage Telecom,West,bob@example.com,Val Diaz,val.diaz@vantagetelecom.example,+1-202-555-0121,38508000.00,active
+A023,Willow Health,West,bob@example.com,Wren Khan,wren.khan@willowhealth.example,+1-202-555-0122,16190000.00,active
+A024,Yellowtail Seafood,West,bob@example.com,Zion Shah,zion.shah@yellowtailseafood.example,+1-202-555-0123,49293000.00,active

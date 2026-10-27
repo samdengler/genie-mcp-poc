@@ -1,0 +1,12 @@
+{
+  "sales": {
+    "title": "POC Sales",
+    "space_id": "01f1cf5620d416d7aa946c544e305338",
+    "space_url": "https://<workspace-host>/genie/rooms/01f1cf5620d416d7aa946c544e305338"
+  },
+  "support": {
+    "title": "POC Support",
+    "space_id": "01f1cf56216412c4980510a065fa8e7c",
+    "space_url": "https://<workspace-host>/genie/rooms/01f1cf56216412c4980510a065fa8e7c"
+  }
+}

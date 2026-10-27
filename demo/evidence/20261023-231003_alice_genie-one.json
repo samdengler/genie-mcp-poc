@@ -1,0 +1,129 @@
+{
+  "asked_at": "2026-10-23T23:10:03-04:00",
+  "profile": "alice",
+  "user": "alice@example.com",
+  "server": "genie-one",
+  "url": "https://<workspace-host>/ai-gateway/mcp-services/system.ai.genie_one_mcp",
+  "question": "Which of my accounts have an open high-severity support ticket, and what did they order last quarter?",
+  "seconds": 76,
+  "status": "completed",
+  "answer": "## Accounts with Open High-Severity Tickets & Their Q3 2026 Orders\n\nTwo of your accounts currently have an **open, high-severity** support ticket \u2014 both in the East region and both marked **active**: **Birchwood Foods** and **Evergreen Clinics**. Each has exactly one open high-severity ticket.\n\n| account_id | account_name | region | account_status | open_high_severity_tickets |\n| --- | --- | --- | --- | --- |\n| A002 | Birchwood Foods | East | active | 1 |\n| A005 | Evergreen Clinics | East | active | 1 |\n\nLooking at what they ordered **last quarter (Q3 2026, Jul\u2013Sep)**:\n\n- **Birchwood Foods** placed **4 orders** (Aug 6, Aug 28, Sep 16, Sep 30).\n- **Evergreen Clinics** placed **3 orders** (Jul 14, Jul 25, Jul 28).\n\n| account_name | order_id | order_date | amount |\n| --- | --- | --- | --- |\n| Birchwood Foods | O0085 | 2026-08-06 | None |\n| Birchwood Foods | O0102 | 2026-08-28 | None |\n| Birchwood Foods | O0111 | 2026-09-16 | None |\n| Birchwood Foods | O0119 | 2026-09-30 | None |\n| Evergreen Clinics | O0074 | 2026-07-14 | None |\n| Evergreen Clinics | O0078 | 2026-07-25 | None |\n| Evergreen Clinics | O0082 | 2026-07-28 | None |\n\nNote that the orders table only captures order identifiers, dates, and dollar amounts \u2014 there is no product/item-level detail recorded, so \"what they ordered\" is best represented by order count and timing rather than specific items.\n\nOrder **dollar amounts are masked (shown as null)** for both the raw orders table and the `revenue_by_account` metric view \u2014 this is expected, since account managers see order activity without revenue figures by design, while finance analysts see the full revenue amounts. [poc.sales.orders](https://<workspace-host>/explore/data/poc/sales/orders?isDbOne=true&utm_source=one-chat&o=<workspace-id>) [poc.sales.revenue_by_account](https://<workspace-host>/explore/data/poc/sales/revenue_by_account?isDbOne=true&utm_source=one-chat&o=<workspace-id>)\n\nThis builds on the same accounts you asked about earlier for high-severity tickets, where annual revenue was also found to be unreported for these two accounts. [Open high-severity tickets & revenue](https://<workspace-host>/one/chat/threads/73a5ef9f2e7642418620e9835359025a?o=<workspace-id>)",
+  "queries": [
+    {
+      "sql": "SELECT ca.account_id, ca.account_name, ca.region, ca.status AS account_status, COUNT(t.ticket_id) AS open_high_severity_tickets\nFROM poc.support.tickets t\nJOIN poc.sales.customer_accounts ca ON t.account_id = ca.account_id\nWHERE t.status = 'open' AND t.severity = 'high'\nGROUP BY ca.account_id, ca.account_name, ca.region, ca.status\nORDER BY ca.account_name",
+      "columns": [
+        "account_id",
+        "account_name",
+        "region",
+        "account_status",
+        "open_high_severity_tickets"
+      ],
+      "rows": [
+        [
+          "A002",
+          "Birchwood Foods",
+          "East",
+          "active",
+          "1"
+        ],
+        [
+          "A005",
+          "Evergreen Clinics",
+          "East",
+          "active",
+          "1"
+        ]
+      ],
+      "total_row_count": 2
+    },
+    {
+      "sql": "SELECT ca.account_name, o.order_id, o.order_date, o.amount\nFROM poc.sales.orders o\nJOIN poc.sales.customer_accounts ca ON o.account_id = ca.account_id\nWHERE o.account_id IN ('A002','A005')\n  AND o.order_date >= '2026-07-01' AND o.order_date < '2026-10-01'\nORDER BY ca.account_name, o.order_date",
+      "columns": [
+        "account_name",
+        "order_id",
+        "order_date",
+        "amount"
+      ],
+      "rows": [
+        [
+          "Birchwood Foods",
+          "O0085",
+          "2026-08-06",
+          null
+        ],
+        [
+          "Birchwood Foods",
+          "O0102",
+          "2026-08-28",
+          null
+        ],
+        [
+          "Birchwood Foods",
+          "O0111",
+          "2026-09-16",
+          null
+        ],
+        [
+          "Birchwood Foods",
+          "O0119",
+          "2026-09-30",
+          null
+        ],
+        [
+          "Evergreen Clinics",
+          "O0074",
+          "2026-07-14",
+          null
+        ],
+        [
+          "Evergreen Clinics",
+          "O0078",
+          "2026-07-25",
+          null
+        ],
+        [
+          "Evergreen Clinics",
+          "O0082",
+          "2026-07-28",
+          null
+        ]
+      ],
+      "total_row_count": 7
+    },
+    {
+      "sql": "SELECT * FROM poc.sales.revenue_by_account LIMIT 5",
+      "columns": [],
+      "rows": [],
+      "total_row_count": null
+    },
+    {
+      "sql": "SELECT `account_id`, `account_name`, `order_quarter_label`, MEASURE(`revenue`) AS revenue, MEASURE(`order_count`) AS order_count\nFROM poc.sales.revenue_by_account\nWHERE `account_id` IN ('A002','A005') AND `order_quarter_label` = '2026-Q3'\nGROUP BY ALL",
+      "columns": [
+        "account_id",
+        "account_name",
+        "order_quarter_label",
+        "revenue",
+        "order_count"
+      ],
+      "rows": [
+        [
+          "A005",
+          "Evergreen Clinics",
+          "2026-Q3",
+          null,
+          "3"
+        ],
+        [
+          "A002",
+          "Birchwood Foods",
+          "2026-Q3",
+          null,
+          "4"
+        ]
+      ],
+      "total_row_count": 2
+    }
+  ],
+  "conversation_id": "306fa117c02349c8bc8d67fa7d10aadc",
+  "deep_link": "https://<workspace-host>/one/chat/threads/306fa117c02349c8bc8d67fa7d10aadc?o=<workspace-id>&utm_source=genie_chat_mcp"
+}

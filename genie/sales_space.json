@@ -1,0 +1,38 @@
+{
+  "title": "POC Sales",
+  "description": "Customer accounts, orders, and revenue. Unity Catalog row filters and column masks decide what each user sees: account managers see their own accounts without revenue; finance analysts see all accounts with revenue and masked contact details.",
+  "tables": [
+    "poc.sales.customer_accounts",
+    "poc.sales.orders"
+  ],
+  "metric_views": [
+    "poc.sales.revenue_by_account"
+  ],
+  "instructions": [
+    "\"My accounts\" means every account the user can see. Unity Catalog row filters already limit each user to the accounts they may see. Do not add owner_email filters or any other ownership predicate.",
+    "Do not mask or hide columns in SQL. Unity Catalog column masks already do that.",
+    "Revenue means the sum of orders.amount. Prefer the metric view poc.sales.revenue_by_account with MEASURE(revenue) for revenue questions.",
+    "\"Last quarter\" means the previous calendar quarter: DATE_TRUNC('QUARTER', add_months(current_date(), -3)). For a question asked in October 2026 that is Q3 2026 (2026-07-01 to 2026-09-30).",
+    "Revenue, annual_revenue, and amount come back NULL for users outside finance_analysts because Unity Catalog masks them. When they are NULL, say that revenue is restricted for this user. Do not report NULL revenue as zero.",
+    "Contact emails may appear as ***@domain and phones as *** for users who do not own the account. Report them as masked."
+  ],
+  "sample_questions": [
+    "Which of my accounts had the most revenue last quarter, and who is the contact?",
+    "How many accounts do I have?",
+    "Show monthly orders for Acme Logistics."
+  ],
+  "example_sqls": [
+    {
+      "question": "Which of my accounts had the most revenue last quarter, and who is the contact?",
+      "sql": "SELECT r.account_id, r.account_name, a.contact_name, a.contact_email, r.revenue\nFROM (\n  SELECT account_id, account_name, MEASURE(revenue) AS revenue\n  FROM poc.sales.revenue_by_account\n  WHERE order_quarter = DATE_TRUNC('QUARTER', add_months(current_date(), -3))\n  GROUP BY account_id, account_name\n) r\nJOIN poc.sales.customer_accounts a ON r.account_id = a.account_id\nORDER BY r.revenue DESC NULLS LAST, r.account_id\nLIMIT 10"
+    },
+    {
+      "question": "How many accounts do I have?",
+      "sql": "SELECT count(*) AS accounts\nFROM poc.sales.customer_accounts"
+    },
+    {
+      "question": "Show monthly orders for Acme Logistics.",
+      "sql": "SELECT DATE_TRUNC('MONTH', o.order_date) AS order_month, count(*) AS orders, sum(o.amount) AS revenue\nFROM poc.sales.orders o\nJOIN poc.sales.customer_accounts a ON o.account_id = a.account_id\nWHERE a.account_name = 'Acme Logistics'\nGROUP BY 1\nORDER BY 1"
+    }
+  ]
+}

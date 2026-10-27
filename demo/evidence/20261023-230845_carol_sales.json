@@ -1,0 +1,38 @@
+{
+  "asked_at": "2026-10-23T23:08:45-04:00",
+  "profile": "carol",
+  "user": "carol@example.com",
+  "server": "sales",
+  "url": "https://<workspace-host>/api/2.0/mcp/genie/01f1cf5620d416d7aa946c544e305338",
+  "question": "Which of my accounts had the most revenue last quarter, and who is the contact?",
+  "seconds": 19,
+  "status": "COMPLETED",
+  "answer": "Would you like to see the top 10 accounts by revenue last quarter instead of just the single highest?\n\nYour account with the **most revenue last quarter** was **Birchwood Foods** (account ID **A002**) with revenue of **571,135.77**. The contact for account ID **A002** is **Blake Hughes**, and the contact details are masked as email *****@birchwoodfoods.example** and phone *******.",
+  "queries": [
+    {
+      "sql": "WITH `account_revenue` AS (\n  SELECT\n    `account_id`,\n    `account_name`,\n    MEASURE(`revenue`) AS `revenue`\n  FROM `poc`.`sales`.`revenue_by_account`\n  WHERE `order_quarter` = DATE_TRUNC('QUARTER', add_months(current_date(), -3))\n    AND `account_id` IS NOT NULL\n    AND `account_name` IS NOT NULL\n  GROUP BY ALL\n), `ranked_accounts` AS (\n  SELECT\n    `account_id`,\n    `account_name`,\n    `revenue`,\n    RANK() OVER (ORDER BY `revenue` DESC NULLS LAST) AS `revenue_rank`\n  FROM `account_revenue`\n)\nSELECT\n  r.`account_id`,\n  r.`account_name`,\n  a.`contact_name`,\n  a.`contact_email`,\n  a.`contact_phone`,\n  r.`revenue`\nFROM `ranked_accounts` r\nJOIN `poc`.`sales`.`customer_accounts` a\n  ON r.`account_id` = a.`account_id`\nWHERE r.`revenue_rank` <= 1\nORDER BY r.`revenue` DESC NULLS LAST, r.`account_id`",
+      "description": "You want to see which of your accounts generated the highest revenue in the last calendar quarter, along with the primary contact details for those accounts.",
+      "columns": [
+        "account_id",
+        "account_name",
+        "contact_name",
+        "contact_email",
+        "contact_phone",
+        "revenue"
+      ],
+      "rows": [
+        [
+          "A002",
+          "Birchwood Foods",
+          "Blake Hughes",
+          "***@birchwoodfoods.example",
+          "***",
+          "571135.77"
+        ]
+      ],
+      "total_row_count": 1
+    }
+  ],
+  "conversation_id": "01f1cf582e5912c2a2a83a02b3e978e3",
+  "deep_link": "https://<workspace-host>/genie/rooms/01f1cf5620d416d7aa946c544e305338/chats/01f1cf582e5912c2a2a83a02b3e978e3"
+}

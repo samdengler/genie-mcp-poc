@@ -1,0 +1,126 @@
+{
+  "asked_at": "2026-10-23T23:07:55-04:00",
+  "profile": "alice",
+  "user": "alice@example.com",
+  "server": "sales",
+  "url": "https://<workspace-host>/api/2.0/mcp/genie/01f1cf5620d416d7aa946c544e305338",
+  "question": "Which of my accounts had the most revenue last quarter, and who is the contact?",
+  "seconds": 19,
+  "status": "COMPLETED",
+  "answer": "Would you like to see the top accounts by number of orders or average order value instead of total revenue?\n\nI can list the accounts returned as tied for **highest last-quarter revenue**, but the revenue values themselves are **restricted for this user**, so I cannot determine a single top account from the visible data. Examples include:\n- **Acme Logistics** \u2014 contact **Avery Abbott**\n- **Birchwood Foods** \u2014 contact **Blake Hughes**\n- **Cobalt Robotics** \u2014 contact **Casey Olsen**\n- **Dunmore Textiles** \u2014 contact **Devon Walsh**\n- **Evergreen Clinics** \u2014 contact **Emerson Ellis**\n\nAcross all **12** returned accounts, every revenue value is restricted, so the result shows a complete tie for first place in the visible data.",
+  "queries": [
+    {
+      "sql": "WITH `account_revenue` AS (\n  SELECT\n    `account_id`,\n    `account_name`,\n    MEASURE(`revenue`) AS `revenue`\n  FROM `poc`.`sales`.`revenue_by_account`\n  WHERE `order_quarter` = DATE_TRUNC('QUARTER', add_months(current_date(), -3))\n    AND `account_id` IS NOT NULL\n    AND `account_name` IS NOT NULL\n  GROUP BY ALL\n), `ranked_accounts` AS (\n  SELECT\n    `account_id`,\n    `account_name`,\n    `revenue`,\n    RANK() OVER (ORDER BY `revenue` DESC NULLS LAST) AS `revenue_rank`\n  FROM `account_revenue`\n)\nSELECT\n  r.`account_id`,\n  r.`account_name`,\n  a.`contact_name`,\n  a.`contact_email`,\n  a.`contact_phone`,\n  r.`revenue`\nFROM `ranked_accounts` r\nJOIN `poc`.`sales`.`customer_accounts` a\n  ON r.`account_id` = a.`account_id`\nWHERE r.`revenue_rank` = 1\nORDER BY r.`account_id`",
+      "description": "You want to find the account or accounts among your visible accounts that generated the highest total revenue in the last calendar quarter, and see the primary contact details for those accounts.",
+      "columns": [
+        "account_id",
+        "account_name",
+        "contact_name",
+        "contact_email",
+        "contact_phone",
+        "revenue"
+      ],
+      "rows": [
+        [
+          "A001",
+          "Acme Logistics",
+          "Avery Abbott",
+          "avery.abbott@acmelogistics.example",
+          "+1-202-555-0100",
+          null
+        ],
+        [
+          "A002",
+          "Birchwood Foods",
+          "Blake Hughes",
+          "blake.hughes@birchwoodfoods.example",
+          "+1-202-555-0101",
+          null
+        ],
+        [
+          "A003",
+          "Cobalt Robotics",
+          "Casey Olsen",
+          "casey.olsen@cobaltrobotics.example",
+          "+1-202-555-0102",
+          null
+        ],
+        [
+          "A004",
+          "Dunmore Textiles",
+          "Devon Walsh",
+          "devon.walsh@dunmoretextiles.example",
+          "+1-202-555-0103",
+          null
+        ],
+        [
+          "A005",
+          "Evergreen Clinics",
+          "Emerson Ellis",
+          "emerson.ellis@evergreenclinics.example",
+          "+1-202-555-0104",
+          null
+        ],
+        [
+          "A006",
+          "Foxglove Media",
+          "Finley Lopez",
+          "finley.lopez@foxglovemedia.example",
+          "+1-202-555-0105",
+          null
+        ],
+        [
+          "A007",
+          "Granite Insurance",
+          "Gray Tran",
+          "gray.tran@graniteinsurance.example",
+          "+1-202-555-0106",
+          null
+        ],
+        [
+          "A008",
+          "Harbor Freight Lines",
+          "Harper Brooks",
+          "harper.brooks@harborfreightlines.example",
+          "+1-202-555-0107",
+          null
+        ],
+        [
+          "A009",
+          "Ironvale Mining",
+          "Indy Ito",
+          "indy.ito@ironvalemining.example",
+          "+1-202-555-0108",
+          null
+        ],
+        [
+          "A010",
+          "Juniper Hotels",
+          "Jordan Patel",
+          "jordan.patel@juniperhotels.example",
+          "+1-202-555-0109",
+          null
+        ],
+        [
+          "A011",
+          "Kestrel Aviation",
+          "Kai Young",
+          "kai.young@kestrelaviation.example",
+          "+1-202-555-0110",
+          null
+        ],
+        [
+          "A012",
+          "Lumen Pharmacy",
+          "Logan Foster",
+          "logan.foster@lumenpharmacy.example",
+          "+1-202-555-0111",
+          null
+        ]
+      ],
+      "total_row_count": 12
+    }
+  ],
+  "conversation_id": "01f1cf5810e51162a2826b02d80c99bd",
+  "deep_link": "https://<workspace-host>/genie/rooms/01f1cf5620d416d7aa946c544e305338/chats/01f1cf5810e51162a2826b02d80c99bd"
+}

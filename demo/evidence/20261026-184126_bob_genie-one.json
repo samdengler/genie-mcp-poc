@@ -1,0 +1,14 @@
+{
+  "asked_at": "2026-10-26T18:41:26-04:00",
+  "profile": "bob",
+  "user": "bob@example.com",
+  "server": "genie-one",
+  "url": "https://<workspace-host>/ai-gateway/mcp-services/system.ai.genie_one_mcp",
+  "question": "Which of my accounts had the most revenue last quarter, and who is the contact?",
+  "seconds": 56,
+  "status": "completed",
+  "answer": "# Top Account by Q3 Revenue: Maple Street Bank\n\nAmong your accounts, **Maple Street Bank** (account A013) generated the most revenue last quarter (Q3 2026). The primary contact is **Morgan Moreno** (morgan.moreno@maplestreetbank.example, +1-202-555-0112). [POC Sales](https://<workspace-host>/genie/rooms/01f1cf5620d416d7aa946c544e305338?isDbOne=true&utm_source=one-chat&o=<workspace-id>)\n\n| account_id | account_name | contact_name | contact_email | contact_phone | revenue |\n| --- | --- | --- | --- | --- | --- |\n| A013 | Maple Street Bank | Morgan Moreno | morgan.moreno@maplestreetbank.example | +1-202-555-0112 |  |\n\n**Note on the revenue figure:** the actual revenue amount is masked (shown as empty/NULL) rather than being zero. As identified previously, the `POC Sales` Genie space applies a Unity Catalog column mask so account managers can see their own accounts but not the underlying revenue values \u2014 only users with finance-analyst permissions can view actual revenue amounts. The account identity and ranking (Maple Street Bank as the top performer) are still reliable, since the ranking is computed server-side before masking is applied to the display. [Prior revenue masking finding](https://<workspace-host>/one/chat/threads/dbbc8f97e6bf47608975d650d46a659c?o=<workspace-id>)\n\nIf you need the exact dollar figure, you'd need finance-analyst access or have someone with that role pull it on your behalf.",
+  "queries": [],
+  "conversation_id": "35f7fb10317849918aa4068f6d7e8918",
+  "deep_link": "https://<workspace-host>/one/chat/threads/35f7fb10317849918aa4068f6d7e8918?o=<workspace-id>&utm_source=genie_chat_mcp"
+}

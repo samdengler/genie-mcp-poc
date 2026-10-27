@@ -1,0 +1,98 @@
+{
+  "asked_at": "2026-10-23T23:11:08-04:00",
+  "profile": "bob",
+  "user": "bob@example.com",
+  "server": "genie-one",
+  "url": "https://<workspace-host>/ai-gateway/mcp-services/system.ai.genie_one_mcp",
+  "question": "Which of my accounts have an open high-severity support ticket, and what did they order last quarter?",
+  "seconds": 63,
+  "status": "completed",
+  "answer": "## Accounts with an Open High-Severity Support Ticket\n\nTwo of your accounts currently have an **open, high-severity** support ticket:\n\n| Account | Region | Ticket | Opened | Issue |\n|---|---|---|---|---|\n| **Northwind Outfitters** (A014) | West | T0002 | 2025-10-08 | Report shows wrong currency |\n| **Sable Security** (A019) | West | T0022 | 2026-04-03 | Login fails after password reset |\n\n[Query Result](https://<workspace-host>/one/chat/threads/48aec58699fd42cba1411a8b3794584d?o=<workspace-id>#embed-query_15547d) [poc.support.tickets](https://<workspace-host>/explore/data/poc/support/tickets?isDbOne=true&utm_source=one-chat&o=<workspace-id>)\n\nNote that under this workspace's row-level security, \"your accounts\" already means every account row visible to you \u2014 no additional `owner_email` filter is needed or applied. [poc.sales.customer_accounts](https://<workspace-host>/explore/data/poc/sales/customer_accounts?isDbOne=true&utm_source=one-chat&o=<workspace-id>)\n\n## What They Ordered Last Quarter (Q3 2026: Jul 1 \u2013 Sep 30)\n\n- **Northwind Outfitters**: 3 orders (O0086 on Aug 8, O0088 on Aug 13, O0091 on Aug 15)\n- **Sable Security**: 1 order (O0075 on Jul 16)\n\n| account_id | account_name | order_id | order_date | amount |\n| --- | --- | --- | --- | --- |\n| A014 | Northwind Outfitters | O0086 | 2026-08-08 | None |\n| A014 | Northwind Outfitters | O0088 | 2026-08-13 | None |\n| A014 | Northwind Outfitters | O0091 | 2026-08-15 | None |\n| A019 | Sable Security | O0075 | 2026-07-16 | None |\n\nThe order **dollar amounts are returned as masked (`NULL`)** rather than zero \u2014 this is the same Unity Catalog column-masking behavior seen previously: account managers can see that orders exist, but the `amount` field (which rolls up into revenue) is restricted to finance-analyst roles. [Prior revenue-masking finding for this user](https://<workspace-host>/one/chat/threads/ed2d7d4ef75346909526f47a342aae52?o=<workspace-id>) [poc.sales.orders](https://<workspace-host>/explore/data/poc/sales/orders?isDbOne=true&utm_source=one-chat&o=<workspace-id>)\n\nIf you need the actual order values, you'd need finance-analyst access or have someone with that role pull the figures for these two accounts.",
+  "queries": [
+    {
+      "sql": "SELECT a.account_id, a.account_name, a.region, a.status, t.ticket_id, t.opened_date, t.severity, t.status AS ticket_status, t.summary, t.reporter_email\nFROM poc.support.tickets t\nJOIN poc.sales.customer_accounts a ON t.account_id = a.account_id\nWHERE t.status = 'open' AND t.severity = 'high'\nORDER BY a.account_id, t.opened_date",
+      "columns": [
+        "account_id",
+        "account_name",
+        "region",
+        "status",
+        "ticket_id",
+        "opened_date",
+        "severity",
+        "ticket_status",
+        "summary",
+        "reporter_email"
+      ],
+      "rows": [
+        [
+          "A014",
+          "Northwind Outfitters",
+          "West",
+          "active",
+          "T0002",
+          "2025-10-08",
+          "high",
+          "open",
+          "Report shows wrong currency",
+          "logan@northwindoutfitters.example"
+        ],
+        [
+          "A019",
+          "Sable Security",
+          "West",
+          "active",
+          "T0022",
+          "2026-04-03",
+          "high",
+          "open",
+          "Login fails after password reset",
+          "blake@sablesecurity.example"
+        ]
+      ],
+      "total_row_count": 2
+    },
+    {
+      "sql": "SELECT a.account_id, a.account_name, o.order_id, o.order_date, o.amount\nFROM poc.sales.customer_accounts a\nLEFT JOIN poc.sales.orders o\n  ON o.account_id = a.account_id\n  AND o.order_date >= '2026-07-01' AND o.order_date < '2026-10-01'\nWHERE a.account_id IN ('A014','A019')\nORDER BY a.account_id, o.order_date",
+      "columns": [
+        "account_id",
+        "account_name",
+        "order_id",
+        "order_date",
+        "amount"
+      ],
+      "rows": [
+        [
+          "A014",
+          "Northwind Outfitters",
+          "O0086",
+          "2026-08-08",
+          null
+        ],
+        [
+          "A014",
+          "Northwind Outfitters",
+          "O0088",
+          "2026-08-13",
+          null
+        ],
+        [
+          "A014",
+          "Northwind Outfitters",
+          "O0091",
+          "2026-08-15",
+          null
+        ],
+        [
+          "A019",
+          "Sable Security",
+          "O0075",
+          "2026-07-16",
+          null
+        ]
+      ],
+      "total_row_count": 4
+    }
+  ],
+  "conversation_id": "48aec58699fd42cba1411a8b3794584d",
+  "deep_link": "https://<workspace-host>/one/chat/threads/48aec58699fd42cba1411a8b3794584d?o=<workspace-id>&utm_source=genie_chat_mcp"
+}

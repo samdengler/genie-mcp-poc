@@ -1,0 +1,16 @@
+# Credentials never live in the repo. CLI profiles stay in ~/.databrickscfg.
+.databrickscfg
+.databricks/
+.env
+.env.*
+*.token
+*token*.json
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+.python-version
+
+# OS
+.DS_Store

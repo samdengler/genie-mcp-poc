@@ -1,0 +1,27 @@
+# Unity Gateway refusals for system.ai.genie_one_mcp
+# Raw MCP requests (initialize, tools/list, tools/call genie_ask) after sql/07_gateway.sql.
+# Run at 2026-10-27T00:05:59Z.
+
+## profile david (david@example.com)
+initialize 403 {'content-type': 'application/json', 'x-request-id': 'af946faa-f08d-454d-8a3d-bfbbfcaf7847'}
+   {"jsonrpc":"2.0","id":1,"error":{"code":-32007,"message":"Not authorized to invoke MCP service.","data":null}}
+tools/list 403 {'content-type': 'application/json', 'x-request-id': '43d40207-079a-4cd4-8aa5-6a79e905c2e5'}
+   {"jsonrpc":"2.0","id":2,"error":{"code":-32007,"message":"Not authorized to invoke MCP service.","data":null}}
+tools/call 403 {'content-type': 'application/json', 'x-request-id': '5c740d70-6e88-4fba-875b-b54083c58f17'}
+   {"jsonrpc":"2.0","id":3,"error":{"code":-32007,"message":"Not authorized to invoke MCP service.","data":null}}
+
+## profile admin (admin@example.com)
+initialize 403 {'content-type': 'application/json', 'x-request-id': 'f84c57d7-64cd-4205-9797-3fb678696913'}
+   {"jsonrpc":"2.0","id":1,"error":{"code":-32007,"message":"Not authorized to invoke MCP service.","data":null}}
+tools/list 403 {'content-type': 'application/json', 'x-request-id': 'f8f14f36-7e2f-4dd2-ba4b-49527555e1d2'}
+   {"jsonrpc":"2.0","id":2,"error":{"code":-32007,"message":"Not authorized to invoke MCP service.","data":null}}
+tools/call 403 {'content-type': 'application/json', 'x-request-id': 'b9fd0dbe-1600-4baf-9a73-e103720ac9e8'}
+   {"jsonrpc":"2.0","id":3,"error":{"code":-32007,"message":"Not authorized to invoke MCP service.","data":null}}
+
+## profile frank (frank@example.com)
+initialize 403 {'content-type': 'application/json', 'x-request-id': '9cd193f5-ce83-4c05-9dfa-17f1b65c3985'}
+   {"jsonrpc":"2.0","id":1,"error":{"code":-32007,"message":"User does not have permission to use mcp service 'system.ai.genie_one_mcp'","data":null}}
+tools/list 403 {'content-type': 'application/json', 'x-request-id': '47566efe-7e8b-4b2c-83fd-33f911ec53fd'}
+   {"jsonrpc":"2.0","id":2,"error":{"code":-32007,"message":"User does not have permission to use mcp service 'system.ai.genie_one_mcp'","data":null}}
+tools/call 403 {'content-type': 'application/json', 'x-request-id': '5c607226-e988-44c5-86ea-52d62b7172c6'}
+   {"jsonrpc":"2.0","id":3,"error":{"code":-32007,"message":"User does not have permission to use mcp service 'system.ai.genie_one_mcp'","data":null}}

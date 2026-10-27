@@ -1,0 +1,29 @@
+{
+  "title": "POC Support",
+  "description": "Customer support tickets with their accounts. Unity Catalog row filters limit account managers to tickets on their own accounts; reporter emails are masked for anyone who does not own the account.",
+  "tables": [
+    "poc.sales.customer_accounts",
+    "poc.support.tickets"
+  ],
+  "metric_views": [],
+  "instructions": [
+    "\"My accounts\" and \"my tickets\" mean every row the user can see. Unity Catalog row filters already limit each user to their own accounts and those accounts' tickets. Do not add owner_email filters or any other ownership predicate.",
+    "Join poc.support.tickets to poc.sales.customer_accounts on account_id for account names.",
+    "Open means status = 'open'. High severity means severity = 'high'.",
+    "Reporter and contact emails may appear as ***@domain for users who do not own the account. Report them as masked."
+  ],
+  "sample_questions": [
+    "Which of my accounts have open high-severity tickets?",
+    "How many tickets were opened per account each month?"
+  ],
+  "example_sqls": [
+    {
+      "question": "Which of my accounts have open high-severity tickets?",
+      "sql": "SELECT a.account_id, a.account_name, t.ticket_id, t.opened_date, t.summary, t.reporter_email\nFROM poc.support.tickets t\nJOIN poc.sales.customer_accounts a ON t.account_id = a.account_id\nWHERE t.status = 'open' AND t.severity = 'high'\nORDER BY a.account_id, t.opened_date"
+    },
+    {
+      "question": "How many tickets were opened per account each month?",
+      "sql": "SELECT a.account_name, DATE_TRUNC('MONTH', t.opened_date) AS opened_month, count(*) AS tickets\nFROM poc.support.tickets t\nJOIN poc.sales.customer_accounts a ON t.account_id = a.account_id\nGROUP BY 1, 2\nORDER BY 1, 2"
+    }
+  ]
+}

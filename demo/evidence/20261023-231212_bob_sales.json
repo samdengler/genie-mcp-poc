@@ -1,0 +1,113 @@
+{
+  "asked_at": "2026-10-23T23:12:12-04:00",
+  "profile": "bob",
+  "user": "bob@example.com",
+  "server": "sales",
+  "url": "https://<workspace-host>/api/2.0/mcp/genie/01f1cf5620d416d7aa946c544e305338",
+  "question": "List all customer accounts with region, contact email, contact phone, and annual revenue",
+  "seconds": 13,
+  "status": "COMPLETED",
+  "answer": "There are **12 customer accounts** in the results, and all are in the **West** region; **annual revenue is restricted for this user**, so it is not available in the data shown. Examples include:\n- **Maple Street Bank** \u2014 email: morgan.moreno@maplestreetbank.example, phone: +1-202-555-0112\n- **Northwind Outfitters** \u2014 email: noel.usman@northwindoutfitters.example, phone: +1-202-555-0113\n- **Orchid Analytics** \u2014 email: oakley.chen@orchidanalytics.example, phone: +1-202-555-0114\n- **Pinecrest Schools** \u2014 email: parker.james@pinecrestschools.example, phone: +1-202-555-0115\n- **Quarry Building Supply** \u2014 email: quinn.reyes@quarrybuildingsupply.example, phone: +1-202-555-0116",
+  "queries": [
+    {
+      "sql": "SELECT `account_name`, `region`, `contact_email`, `contact_phone`, `annual_revenue`\nFROM `poc`.`sales`.`customer_accounts`",
+      "description": "You want to see a list of all customer accounts including their region, contact email, contact phone, and annual revenue.",
+      "columns": [
+        "account_name",
+        "region",
+        "contact_email",
+        "contact_phone",
+        "annual_revenue"
+      ],
+      "rows": [
+        [
+          "Maple Street Bank",
+          "West",
+          "morgan.moreno@maplestreetbank.example",
+          "+1-202-555-0112",
+          null
+        ],
+        [
+          "Northwind Outfitters",
+          "West",
+          "noel.usman@northwindoutfitters.example",
+          "+1-202-555-0113",
+          null
+        ],
+        [
+          "Orchid Analytics",
+          "West",
+          "oakley.chen@orchidanalytics.example",
+          "+1-202-555-0114",
+          null
+        ],
+        [
+          "Pinecrest Schools",
+          "West",
+          "parker.james@pinecrestschools.example",
+          "+1-202-555-0115",
+          null
+        ],
+        [
+          "Quarry Building Supply",
+          "West",
+          "quinn.reyes@quarrybuildingsupply.example",
+          "+1-202-555-0116",
+          null
+        ],
+        [
+          "Redwood Solar",
+          "West",
+          "reese.zhou@redwoodsolar.example",
+          "+1-202-555-0117",
+          null
+        ],
+        [
+          "Sable Security",
+          "West",
+          "sage.garcia@sablesecurity.example",
+          "+1-202-555-0118",
+          null
+        ],
+        [
+          "Tidewater Marine",
+          "West",
+          "taylor.nash@tidewatermarine.example",
+          "+1-202-555-0119",
+          null
+        ],
+        [
+          "Umber Coffee Roasters",
+          "West",
+          "umi.vega@umbercoffeeroasters.example",
+          "+1-202-555-0120",
+          null
+        ],
+        [
+          "Vantage Telecom",
+          "West",
+          "val.diaz@vantagetelecom.example",
+          "+1-202-555-0121",
+          null
+        ],
+        [
+          "Willow Health",
+          "West",
+          "wren.khan@willowhealth.example",
+          "+1-202-555-0122",
+          null
+        ],
+        [
+          "Yellowtail Seafood",
+          "West",
+          "zion.shah@yellowtailseafood.example",
+          "+1-202-555-0123",
+          null
+        ]
+      ],
+      "total_row_count": 12
+    }
+  ],
+  "conversation_id": "01f1cf58adf41df2a74d7a9357340ddf",
+  "deep_link": "https://<workspace-host>/genie/rooms/01f1cf5620d416d7aa946c544e305338/chats/01f1cf58adf41df2a74d7a9357340ddf"
+}

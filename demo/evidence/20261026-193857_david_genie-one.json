@@ -1,0 +1,14 @@
+{
+  "asked_at": "2026-10-26T19:38:57-04:00",
+  "profile": "david",
+  "user": "david@example.com",
+  "server": "genie-one",
+  "url": "https://<workspace-host>/ai-gateway/mcp-services/system.ai.genie_one_mcp",
+  "question": "Which of my accounts had the most revenue last quarter, and who is the contact?",
+  "seconds": 38,
+  "status": "completed",
+  "answer": "I searched the workspace for account, revenue, and contact data but could not find any such assets. The only matching tables are Databricks' built-in **sample/demo datasets** (`samples.bakehouse.*`, `samples.tpch.*`), which are synthetic bakery-franchise and TPC-H benchmark data \u2014 not real account, revenue, or contact records for your organization.\n\nThere doesn't appear to be a Genie space, dashboard, or table in this workspace that tracks CRM-style account revenue and contacts. If this data exists under a different name (e.g., a specific CRM system or BI tool name), let me know and I can search again \u2014 or if you have access to a Salesforce/CRM-connected Genie space or dashboard that isn't showing up in search, point me to it directly.",
+  "queries": [],
+  "conversation_id": "36ed45e274cf4b4fba9aec89cba2cd39",
+  "deep_link": "https://<workspace-host>/one/chat/threads/36ed45e274cf4b4fba9aec89cba2cd39?o=<workspace-id>&utm_source=genie_chat_mcp"
+}
