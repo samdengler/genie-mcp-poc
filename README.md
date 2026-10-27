@@ -29,9 +29,32 @@ All four checks pass.
 - **Identity.** Every statement Genie ran shows the asking user in query history. Alice's Claude calls reach the gateway as `alice@example.com` with user agent `Claude-User`.
 - **Who may call Genie One.** Alice, Bob, and Carol are admitted. David, the account admin, and the metastore admin get HTTP 403 on every MCP request, starting with `initialize`.
 - **What each user sees.** One question, four different answers, shown below. None of the 26 statements Genie ran contains an owner filter, `current_user()`, or a masking `CASE`.
-- **Attribution.** `system.ai_gateway.usage` names the caller and client for each tool call, and the Query History API names the user for each statement.
+- **Attribution.** `system.ai_gateway.usage` names the caller and client for each admitted tool call. `system.access.audit` records each refused call with the caller and the error. The Query History API names the user for each statement.
 
 ![One question, four users, four answers](docs/images/who-sees-what.svg)
+
+## Live tests
+
+`tests/` runs the four checks against the live workspace as each user and fails on any mismatch. Last run: 70 passed in 2 minutes 20 seconds, on 2026-10-27.
+
+```
+uv run --with-requirements tests/requirements.txt pytest tests
+uv run --with-requirements tests/requirements.txt pytest tests -m "not genie and not logs"   # 42 fast tests
+```
+
+| File | What it checks |
+| --- | --- |
+| `test_identity.py` | Each CLI profile signs in as its user, in the expected groups. The metastore admin is `metastore_admins`. Only the account admin is a workspace admin |
+| `test_governance.py` | The 16 checks in `sql/verify/<user>.sql` pass for Alice, Bob, and Carol. The account admin sees 0 accounts. No reader can query the ownership lookup. David and Frank cannot read `poc` |
+| `test_gateway.py` | Only the two business groups hold EXECUTE on Genie One. Alice, Bob, and Carol get through `initialize` and `tools/list`. David, the account admin, and Frank get HTTP 403 and JSON-RPC `-32007` on every method, and the Python client reports the refusal |
+| `test_genie_one.py` | Genie One answers the Sales and cross-space questions for the three users. Every statement ran as the asker and holds no access logic. Each statement, run again as the asker, returns only that user's accounts, with contacts and revenue masked per group |
+| `test_logs.py` | The gateway log names Alice for Claude calls and each client user. The audit log records each refusal and names Frank for the grant change. No refused user made a successful call after it |
+
+- All six CLI logins must be fresh. A stale login fails the test with the `databricks auth login` command to run.
+- Claude can't be driven from a test. `test_logs.py` checks the record that a manual Claude run (`demo/script.md`, step 1) leaves in the gateway log.
+- The system tables lag the calls by 20 to 60 minutes, so `test_logs.py` looks back over the last 7 days (`GENIE_POC_LOG_DAYS`) instead of at the current run.
+- The Query History API shows a user their own Genie statements as `<REDACTED>`, so the tests read them as admin. `test_statement_text_is_readable` fails if the text is missing.
+- Refused calls appear in `system.access.audit` (`mcpService`, `mcpCall`, status 403). `system.ai_gateway.usage` records admitted calls only.
 
 The sections below hold the workspace details, the governance rules, the evidence, and the setup steps.
 
@@ -264,6 +287,7 @@ Bob's 2026-10-26 answer said the ranking "is still reliable" with revenue masked
 | Audit or query history attributes each run to the right user | Pass: Query History API `user_name`; gateway `requester` and audit events with `user_agent` Claude-User for Alice's connector |
 | Genie One answers the cross-space question for Alice in Claude and for Bob in the client, with the same governance | Pass: Alice in Claude 2026-10-26, Bob in the client 2026-10-24 |
 | Unity Gateway lets only the two business groups call Genie One | Pass, 2026-10-27: alice, bob, carol allowed; david, the account admin, and the metastore admin refused with HTTP 403 |
+| A live test suite checks identity, governance, the gateway, Genie One, and the logs as each user | Pass, 2026-10-27: 70 tests (`tests/`) |
 | README reproduces the setup from a fresh trial in under two hours | Written; not yet timed on a fresh trial |
 
 ## Repo layout
@@ -292,6 +316,7 @@ demo/script.md           the demo storyline with exact questions and expected an
 demo/collect_evidence.py writes generated_sql.md, query_history.csv, gateway_usage.csv, audit.csv
 demo/evidence/           client results (*.json) and the files above
 docs/images/             request-path.svg and who-sees-what.svg, the diagrams in this README
+tests/                   live pytest suite: identity, governance, gateway, Genie One, logs
 ```
 
 ## Setup from a fresh trial

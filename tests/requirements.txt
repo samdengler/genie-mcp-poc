@@ -1,0 +1,7 @@
+# Live tests against the POC workspace:
+#   uv run --with-requirements tests/requirements.txt pytest tests
+databricks-sdk>=0.60
+databricks-mcp>=0.9
+mcp>=2
+pytest>=8
+requests>=2.31
