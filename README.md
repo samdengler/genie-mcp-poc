@@ -1,8 +1,39 @@
 # genie-mcp-poc
 
-Shows that a Claude user querying Databricks through the managed Genie MCP server gets only the rows and fields Unity Catalog allows for that user. Unity Gateway decides who may call Genie One. Row filters handle ownership and column masks handle classification. The governance lives in Unity Catalog, not in Claude, the MCP server, or the Genie space.
+Claude asks Databricks Genie One questions over MCP, and Databricks decides who may ask and what each person sees. The user's identity reaches Databricks through OAuth. Unity Gateway decides who may call Genie One. Unity Catalog row filters and column masks decide which rows and fields come back. Claude, the MCP server, and Genie hold no access rules.
 
 Addresses use `example.com` and workspace identifiers are placeholders such as `<workspace-host>`. Substitute your own users and workspace to reproduce it.
+
+## Components and test users
+
+The POC runs on a Databricks trial workspace (AWS, serverless). Catalog `poc` holds synthetic sales and support data: 24 customer accounts, 120 orders, and 40 support tickets. Two Genie spaces cover sales and support, and Genie One answers across the workspace.
+
+- **Claude** reaches Genie One through a custom connector on the Genie One MCP URL (`/ai-gateway/mcp-services/system.ai.genie_one_mcp`). The connector signs in with a Databricks OAuth app connection, as the user.
+- **A Python MCP client** (`client/genie_client.py`) calls the same MCP server as any Databricks CLI profile.
+- **Four users ask the questions.** Alice and Bob are account managers who each own 12 accounts. Carol is a finance analyst who sees every account. David is in neither group. Alice asks from Claude; the others use the client.
+- **Two admins set the rules.** The account admin builds the workspace and appoints the metastore admin group. Frank, its only member, decides who may call Genie One. [Users and groups](#users-and-groups) has the details.
+
+![Request path from Claude to the data](docs/images/request-path.svg)
+
+## Identity, access, and data checks
+
+1. **Identity.** Each question runs in Databricks as the person who asked, from Claude and from the client.
+2. **Who may call Genie One.** Unity Gateway admits the two business groups and refuses everyone else before Genie runs.
+3. **What each user sees.** Unity Catalog row filters and ABAC column masks shape each answer. Genie's SQL holds no ownership or masking logic.
+4. **Attribution.** The gateway log, the audit log, and query history name the user behind each call.
+
+## Results from the October 26, 2026 run
+
+All four checks pass.
+
+- **Identity.** Every statement Genie ran shows the asking user in query history. Alice's Claude calls reach the gateway as `alice@example.com` with user agent `Claude-User`.
+- **Who may call Genie One.** Alice, Bob, and Carol are admitted. David, the account admin, and the metastore admin get HTTP 403 on every MCP request, starting with `initialize`.
+- **What each user sees.** One question, four different answers, shown below. None of the 26 statements Genie ran contains an owner filter, `current_user()`, or a masking `CASE`.
+- **Attribution.** `system.ai_gateway.usage` names the caller and client for each tool call, and the Query History API names the user for each statement.
+
+![One question, four users, four answers](docs/images/who-sees-what.svg)
+
+The sections below hold the workspace details, the governance rules, the evidence, and the setup steps.
 
 ## Workspace
 
@@ -260,6 +291,7 @@ client/requirements.txt  the client's dependencies, for pip users
 demo/script.md           the demo storyline with exact questions and expected answers
 demo/collect_evidence.py writes generated_sql.md, query_history.csv, gateway_usage.csv, audit.csv
 demo/evidence/           client results (*.json) and the files above
+docs/images/             request-path.svg and who-sees-what.svg, the diagrams in this README
 ```
 
 ## Setup from a fresh trial

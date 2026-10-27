@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1004" width="1000" height="1004" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <title>Request path from Claude to the data: Unity Gateway decides who may call Genie One, Unity Catalog decides what each caller sees</title>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#6e7781"/>
+    </marker>
+  </defs>
+  <rect width="1000" height="1004" fill="#ffffff"/>
+
+  <text x="24" y="40" font-size="22" font-weight="700" fill="#1f2328">Request path from Claude to the data</text>
+  <text x="24" y="66" font-size="14" fill="#57606a">Identity comes from OAuth. Unity Gateway decides who may call Genie One. Unity Catalog decides what each caller sees.</text>
+
+  <!-- Client zones -->
+  <rect x="24" y="88" width="464" height="134" rx="12" fill="#f8f3ec" stroke="#e3d5c1"/>
+  <text x="40" y="111" font-size="12" font-weight="700" fill="#8a6a3f" letter-spacing="0.6">ANTHROPIC CLOUD</text>
+  <rect x="40" y="124" width="432" height="82" rx="8" fill="#ffffff" stroke="#d0d7de"/>
+  <text x="56" y="151" font-size="15" font-weight="700" fill="#1f2328">Claude, Genie One connector</text>
+  <text x="56" y="172" font-size="13" fill="#1f2328">Alice asks in Claude</text>
+  <text x="56" y="191" font-size="13" fill="#57606a">The connector's MCP calls start in Anthropic's cloud</text>
+
+  <rect x="512" y="88" width="464" height="134" rx="12" fill="#f6f8fa" stroke="#d0d7de"/>
+  <text x="528" y="111" font-size="12" font-weight="700" fill="#57606a" letter-spacing="0.6">USER'S MACHINE</text>
+  <rect x="528" y="124" width="432" height="82" rx="8" fill="#ffffff" stroke="#d0d7de"/>
+  <text x="544" y="151" font-size="15" font-weight="700" fill="#1f2328">Python MCP client</text>
+  <text x="544" y="172" font-size="13" fill="#1f2328">Bob, Carol, and David ask from a terminal</text>
+  <text x="544" y="191" font-size="13" fill="#57606a">Each uses a Databricks CLI OAuth login</text>
+
+  <!-- Databricks zone -->
+  <rect x="24" y="246" width="952" height="734" rx="12" fill="#f3f6fb" stroke="#c9d6ea"/>
+  <text x="40" y="269" font-size="12" font-weight="700" fill="#3b5b8c" letter-spacing="0.6">DATABRICKS WORKSPACE</text>
+
+  <!-- Connectors -->
+  <g fill="none" stroke="#6e7781" stroke-width="1.5">
+    <path d="M256 206V282" marker-end="url(#arrow)"/>
+    <path d="M744 206V282" marker-end="url(#arrow)"/>
+    <path d="M320 368V398" marker-end="url(#arrow)"/>
+    <path d="M600 450H630" marker-end="url(#arrow)"/>
+    <path d="M320 500V530" marker-end="url(#arrow)"/>
+    <path d="M320 616V646" marker-end="url(#arrow)"/>
+    <path d="M320 716V746" marker-end="url(#arrow)"/>
+    <path d="M600 806H630" marker-end="url(#arrow)"/>
+    <path d="M320 864V894" marker-end="url(#arrow)"/>
+  </g>
+  <text x="332" y="520" font-size="12" fill="#57606a">alice, bob, carol</text>
+
+  <!-- OAuth -->
+  <rect x="40" y="284" width="920" height="84" rx="8" fill="#fbefff" stroke="#8250df" stroke-width="1.5"/>
+  <text x="56" y="311" font-size="15" font-weight="700" fill="#1f2328">Databricks OAuth</text>
+  <text x="56" y="332" font-size="13" fill="#1f2328">App connection claude-connector (scope ai-gateway) for Claude; CLI logins for the client</text>
+  <text x="56" y="351" font-size="13" fill="#57606a">Every token carries the signed-in user, so each call and query runs as that person</text>
+  <rect x="790" y="296" width="154" height="22" rx="11" fill="#ffffff" stroke="#8250df"/>
+  <text x="867" y="311" font-size="12" text-anchor="middle" fill="#8250df">Set by account admin</text>
+
+  <!-- Unity Gateway -->
+  <rect x="40" y="400" width="560" height="100" rx="8" fill="#ddf4ff" stroke="#0969da" stroke-width="1.5"/>
+  <text x="56" y="427" font-size="15" font-weight="700" fill="#1f2328">Unity Gateway</text>
+  <text x="56" y="448" font-size="13" fill="#1f2328">EXECUTE on system.ai.genie_one_mcp for account_managers</text>
+  <text x="56" y="466" font-size="13" fill="#1f2328">and finance_analysts only</text>
+  <text x="56" y="485" font-size="13" fill="#57606a">Logs each call with the user and the client</text>
+  <rect x="404" y="412" width="180" height="22" rx="11" fill="#ffffff" stroke="#0969da"/>
+  <text x="494" y="427" font-size="12" text-anchor="middle" fill="#0969da">Set by metastore_admins</text>
+
+  <!-- Refused -->
+  <rect x="632" y="400" width="328" height="100" rx="8" fill="#ffebe9" stroke="#cf222e" stroke-width="1.5"/>
+  <text x="648" y="427" font-size="15" font-weight="700" fill="#1f2328">Refused with HTTP 403</text>
+  <text x="648" y="448" font-size="13" fill="#1f2328">david (in no group)</text>
+  <text x="648" y="466" font-size="13" fill="#1f2328">the account admin and the metastore admin</text>
+  <text x="648" y="485" font-size="13" fill="#57606a">Genie never runs; no SQL reaches the data</text>
+
+  <!-- Genie One -->
+  <rect x="40" y="532" width="560" height="84" rx="8" fill="#ffffff" stroke="#d0d7de"/>
+  <text x="56" y="559" font-size="15" font-weight="700" fill="#1f2328">Genie One</text>
+  <text x="56" y="580" font-size="13" fill="#1f2328">Picks the tables or a Genie space and writes plain SQL</text>
+  <text x="56" y="599" font-size="13" fill="#57606a">No ownership filters or masking in its SQL</text>
+
+  <!-- Warehouse -->
+  <rect x="40" y="648" width="560" height="68" rx="8" fill="#ffffff" stroke="#d0d7de"/>
+  <text x="56" y="675" font-size="15" font-weight="700" fill="#1f2328">SQL warehouse</text>
+  <text x="56" y="697" font-size="13" fill="#1f2328">Runs each statement as the user who asked</text>
+
+  <!-- Unity Catalog -->
+  <rect x="40" y="748" width="560" height="116" rx="8" fill="#dafbe1" stroke="#1a7f37" stroke-width="1.5"/>
+  <text x="56" y="775" font-size="15" font-weight="700" fill="#1f2328">Unity Catalog</text>
+  <text x="56" y="796" font-size="13" fill="#1f2328">Grants on the poc catalog for both business groups</text>
+  <text x="56" y="815" font-size="13" fill="#1f2328">Row filters: account managers see only accounts they own</text>
+  <text x="56" y="834" font-size="13" fill="#1f2328">ABAC column masks by governed tag: PII and Confidential</text>
+  <text x="56" y="853" font-size="13" fill="#57606a">Applied when each query runs, for the user who asked</text>
+  <rect x="444" y="760" width="140" height="22" rx="11" fill="#ffffff" stroke="#1a7f37"/>
+  <text x="514" y="775" font-size="12" text-anchor="middle" fill="#1a7f37">Set by data owner</text>
+
+  <!-- Result per group -->
+  <rect x="632" y="748" width="328" height="116" rx="8" fill="#ffffff" stroke="#d0d7de"/>
+  <text x="648" y="775" font-size="15" font-weight="700" fill="#1f2328">What each group sees</text>
+  <text x="648" y="798" font-size="13" font-weight="600" fill="#1f2328">account_managers</text>
+  <text x="648" y="816" font-size="13" fill="#57606a">own accounts, contacts in clear, revenue masked</text>
+  <text x="648" y="838" font-size="13" font-weight="600" fill="#1f2328">finance_analysts</text>
+  <text x="648" y="856" font-size="13" fill="#57606a">all accounts, contacts masked, revenue visible</text>
+
+  <!-- Data -->
+  <rect x="40" y="896" width="560" height="68" rx="8" fill="#ffffff" stroke="#d0d7de"/>
+  <text x="56" y="923" font-size="15" font-weight="700" fill="#1f2328">poc catalog, synthetic data</text>
+  <text x="56" y="945" font-size="13" fill="#1f2328">customer_accounts, orders, tickets, metric view revenue_by_account</text>
+</svg>
