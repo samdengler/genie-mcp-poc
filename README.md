@@ -244,6 +244,17 @@ Genie One does not see a space's instructions when it queries tables directly. A
 
 Genie One sometimes hands a question to a Genie space instead of querying the tables itself. On 2026-10-26 it sent Bob's and Carol's Sales questions to the POC Sales space (query history shows client application `Databricks SQL Genie Space` and the space id). In that case `genie_poll_response` returns `query_items: null`, so the client's JSON has no SQL. `demo/collect_evidence.py` reads the SQL from the Query History API instead.
 
+## Genie One call sequence
+
+Genie One is an agent: it picks tables or a Genie space, writes SQL, runs it as the user, and tries again when a statement fails. The diagram follows Alice's and Bob's revenue questions from the October 26 run. It is built from three records: the gateway log (`system.ai_gateway.usage`), the Query History API, and the responses the client saved in `demo/evidence/`.
+
+![Genie One call sequence](docs/images/genie-one-sequence.svg)
+
+- Alice's question: Genie One started two statements at 00:03:34 UTC. The `SUM(revenue)` statement on the metric view failed with `METRIC_VIEW_MISSING_MEASURE_FUNCTION`, and Genie One ran it again with `MEASURE()` 10 seconds later. The final response listed all three statements, including the failed one.
+- Bob's question: Genie One handed it to the POC Sales space. The space's statement ran as bob, and the final response had no query items.
+- Genie One worked for 28 seconds on Alice's question before its first statement. No log shows that work: the prompts, the model, and the choice between tables and a space are not recorded.
+- Genie One also draws on the user's earlier conversations. Alice's `genie_ask` carried no `conversation_id`, and the answer began "I confirmed this matches what I found in our conversation an hour ago."
+
 ## Demo and evidence
 
 `demo/script.md` is the seven-step storyline, all on Genie One: the same Sales question from Alice (Claude), Bob, and Carol (client); the generated SQL; the gateway log; the cross-space question; and the evidence. `demo/collect_evidence.py` writes the evidence after a run:
@@ -315,7 +326,7 @@ client/requirements.txt  the client's dependencies, for pip users
 demo/script.md           the demo storyline with exact questions and expected answers
 demo/collect_evidence.py writes generated_sql.md, query_history.csv, gateway_usage.csv, audit.csv
 demo/evidence/           client results (*.json) and the files above
-docs/images/             request-path.svg and who-sees-what.svg, the diagrams in this README
+docs/images/             request-path.svg, who-sees-what.svg, and genie-one-sequence.svg, the diagrams in this README
 tests/                   live pytest suite: identity, governance, gateway, Genie One, logs
 ```
 

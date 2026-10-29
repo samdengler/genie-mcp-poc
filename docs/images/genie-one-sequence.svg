@@ -1,0 +1,146 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1376" width="1000" height="1376" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <title>Genie One call sequence: the MCP calls, the SQL Genie One ran, and what each log recorded, for Alice's and Bob's questions</title>
+  <style>
+    .lbl { font-size: 13px; fill: #1f2328; }
+    .retlbl { font-size: 12px; fill: #57606a; }
+    .err { font-size: 12px; font-weight: 600; fill: #cf222e; }
+    .note { font-size: 12px; fill: #57606a; }
+    .time { font-size: 12px; fill: #57606a; }
+    .h { paint-order: stroke; stroke: #ffffff; stroke-width: 4px; stroke-linejoin: round; }
+    .req { fill: none; stroke: #6e7781; stroke-width: 1.5; }
+    .retline { fill: none; stroke: #6e7781; stroke-width: 1.5; stroke-dasharray: 5 4; }
+    .reterrline { fill: none; stroke: #cf222e; stroke-width: 1.5; stroke-dasharray: 5 4; }
+    .life { stroke: #d0d7de; stroke-width: 1.5; stroke-dasharray: 4 4; }
+    .dot { fill: #0969da; stroke: #ffffff; stroke-width: 1.5; }
+    .sq { fill: #1a7f37; stroke: #ffffff; stroke-width: 1; }
+  </style>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#6e7781"/>
+    </marker>
+    <marker id="arrowRed" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#cf222e"/>
+    </marker>
+  </defs>
+  <rect width="1000" height="1376" fill="#ffffff"/>
+
+  <text x="24" y="40" font-size="22" font-weight="700" fill="#1f2328">Genie One call sequence</text>
+  <text x="24" y="66" font-size="14" fill="#57606a">Alice's and Bob's revenue questions from the October 26 run, asked from the Python client. Times are UTC.</text>
+<path d="M112 148V1236" class="life"/>
+<path d="M300 148V1236" class="life"/>
+<path d="M488 148V1236" class="life"/>
+<path d="M676 148V1236" class="life"/>
+<path d="M876 148V1236" class="life"/>
+<rect x="26" y="92" width="172" height="56" rx="8" fill="#ffffff" stroke="#d0d7de" stroke-width="1.5"/>
+<text x="112" y="116" font-size="15" font-weight="700" fill="#1f2328" text-anchor="middle">MCP client</text>
+<text x="112" y="136" font-size="12" fill="#57606a" text-anchor="middle">Python, as the user</text>
+<rect x="214" y="92" width="172" height="56" rx="8" fill="#ddf4ff" stroke="#0969da" stroke-width="1.5"/>
+<text x="300" y="116" font-size="15" font-weight="700" fill="#1f2328" text-anchor="middle">Unity Gateway</text>
+<text x="300" y="136" font-size="12" fill="#0969da" text-anchor="middle">EXECUTE check, call log</text>
+<rect x="402" y="92" width="172" height="56" rx="8" fill="#ffffff" stroke="#d0d7de" stroke-width="1.5"/>
+<text x="488" y="116" font-size="15" font-weight="700" fill="#1f2328" text-anchor="middle">Genie One</text>
+<text x="488" y="136" font-size="12" fill="#57606a" text-anchor="middle">system.ai.genie_one_mcp</text>
+<rect x="590" y="92" width="172" height="56" rx="8" fill="#ffffff" stroke="#d0d7de" stroke-width="1.5"/>
+<text x="676" y="116" font-size="15" font-weight="700" fill="#1f2328" text-anchor="middle">POC Sales space</text>
+<text x="676" y="136" font-size="12" fill="#57606a" text-anchor="middle">Genie space</text>
+<rect x="790" y="92" width="172" height="56" rx="8" fill="#dafbe1" stroke="#1a7f37" stroke-width="1.5"/>
+<text x="876" y="116" font-size="15" font-weight="700" fill="#1f2328" text-anchor="middle">SQL warehouse</text>
+<text x="876" y="136" font-size="12" fill="#1a7f37" text-anchor="middle">Unity Catalog filters, masks</text>
+<rect x="24" y="168" width="952" height="30" rx="6" fill="#f6f8fa" stroke="#d0d7de"/>
+<text x="38" y="188" font-size="14" font-weight="700" fill="#1f2328">Alice: Genie One writes and runs the SQL</text>
+<rect x="482" y="300" width="12" height="440" fill="#ffffff" stroke="#8c959f"/>
+<text x="30" y="240" class="time">00:03:05</text>
+<path d="M112 236H480" class="req" marker-end="url(#arrow)"/>
+<text x="128" y="228" class="lbl h">initialize, tools/list</text>
+<circle cx="300" cy="236" r="5" class="dot"/>
+<path d="M482 262H114" class="retline" marker-end="url(#arrow)"/>
+<text x="130" y="254" class="retlbl h">200: genie_ask, genie_poll_response, genie_get_query_result, view_ask</text>
+<text x="30" y="304" class="time">00:03:06</text>
+<path d="M112 300H480" class="req" marker-end="url(#arrow)"/>
+<text x="128" y="292" class="lbl h">genie_ask(question)</text>
+<circle cx="300" cy="300" r="5" class="dot"/>
+<path d="M482 326H114" class="retline" marker-end="url(#arrow)"/>
+<text x="130" y="318" class="retlbl h">in_progress, conversation_id, response_id</text>
+<rect x="88" y="352" width="412" height="360" rx="4" fill="none" stroke="#8c959f"/>
+<path d="M88 352h132v16l-8 8H88z" fill="#f6f8fa" stroke="#8c959f"/>
+<text x="98" y="368" font-size="12" font-weight="600" fill="#57606a">loop every 6 s</text>
+<text x="100" y="700" class="note h">9 polls, 00:03:10 to 00:03:59</text>
+<text x="30" y="408" class="time">00:03:10</text>
+<path d="M112 404H480" class="req" marker-end="url(#arrow)"/>
+<text x="128" y="396" class="lbl h">genie_poll_response(ids)</text>
+<circle cx="300" cy="404" r="5" class="dot"/>
+<path d="M482 430H114" class="retline" marker-end="url(#arrow)"/>
+<text x="130" y="422" class="retlbl h">in_progress; the server holds each poll about 3 s</text>
+<rect x="512" y="366" width="448" height="52" rx="6" fill="#ffffff" stroke="#8c959f" stroke-dasharray="4 3"/>
+<text x="526" y="388" class="lbl">00:03:06 to 00:03:34: 28 s with no SQL</text>
+<text x="526" y="407" class="note">No log shows what Genie One did in this time</text>
+<text x="30" y="474" class="time">00:03:34</text>
+<path d="M494 470H870" class="req" marker-end="url(#arrow)"/>
+<text x="510" y="462" class="lbl h">SELECT … FROM customer_accounts</text>
+<rect x="871" y="465" width="10" height="10" class="sq"/>
+<path d="M874 496H496" class="retline" marker-end="url(#arrow)"/>
+<text x="512" y="488" class="retlbl h">12 rows: A001 to A012, contacts in clear, revenue masked</text>
+<text x="30" y="544" class="time">00:03:34</text>
+<path d="M494 540H870" class="req" marker-end="url(#arrow)"/>
+<text x="510" y="532" class="lbl h">SUM(revenue) FROM revenue_by_account</text>
+<rect x="871" y="535" width="10" height="10" class="sq"/>
+<path d="M874 566H496" class="reterrline" marker-end="url(#arrowRed)"/>
+<text x="512" y="558" class="err h">FAILED: METRIC_VIEW_MISSING_MEASURE_FUNCTION</text>
+<text x="30" y="620" class="time">00:03:44</text>
+<path d="M494 616H870" class="req" marker-end="url(#arrow)"/>
+<text x="510" y="608" class="lbl h">MEASURE(revenue) FROM revenue_by_account</text>
+<rect x="871" y="611" width="10" height="10" class="sq"/>
+<path d="M874 642H496" class="retline" marker-end="url(#arrow)"/>
+<text x="512" y="634" class="retlbl h">12 rows, revenue masked for all 12</text>
+<text x="514" y="676" class="note h">Genie One retried with MEASURE() after the error</text>
+<text x="30" y="744" class="time">00:03:59</text>
+<path d="M482 740H114" class="retline" marker-end="url(#arrow)"/>
+<text x="130" y="732" class="retlbl h">last poll: completed, final_answer, 3 query_items</text>
+<text x="30" y="786" class="time">00:04:03</text>
+<path d="M112 782H480" class="req" marker-end="url(#arrow)"/>
+<text x="128" y="774" class="lbl h">genie_get_query_result × 3</text>
+<circle cx="300" cy="782" r="5" class="dot"/>
+<path d="M482 808H114" class="retline" marker-end="url(#arrow)"/>
+<text x="130" y="800" class="retlbl h">columns and rows; none for the failed query</text>
+<text x="36" y="842" class="note h">59 s in all. Alice's Claude run at 00:04:37 made the same genie_ask and genie_poll_response calls, with user agent Claude-User.</text>
+<rect x="24" y="866" width="952" height="30" rx="6" fill="#f6f8fa" stroke="#d0d7de"/>
+<text x="38" y="886" font-size="14" font-weight="700" fill="#1f2328">Bob: Genie One hands the question to the POC Sales space</text>
+<rect x="482" y="930" width="12" height="278" fill="#ffffff" stroke="#8c959f"/>
+<text x="30" y="934" class="time">00:03:06</text>
+<path d="M112 930H480" class="req" marker-end="url(#arrow)"/>
+<text x="128" y="922" class="lbl h">initialize, tools/list, genie_ask(question)</text>
+<circle cx="300" cy="930" r="5" class="dot"/>
+<path d="M482 956H114" class="retline" marker-end="url(#arrow)"/>
+<text x="130" y="948" class="retlbl h">in_progress, conversation_id, response_id</text>
+<rect x="88" y="982" width="412" height="200" rx="4" fill="none" stroke="#8c959f"/>
+<path d="M88 982h132v16l-8 8H88z" fill="#f6f8fa" stroke="#8c959f"/>
+<text x="98" y="998" font-size="12" font-weight="600" fill="#57606a">loop every 6 s</text>
+<text x="100" y="1170" class="note h">7 polls, 00:03:10 to 00:03:48</text>
+<text x="30" y="1034" class="time">00:03:10</text>
+<path d="M112 1030H480" class="req" marker-end="url(#arrow)"/>
+<text x="128" y="1022" class="lbl h">genie_poll_response(ids)</text>
+<circle cx="300" cy="1030" r="5" class="dot"/>
+<path d="M482 1056H114" class="retline" marker-end="url(#arrow)"/>
+<text x="130" y="1048" class="retlbl h">in_progress</text>
+<rect x="670" y="1084" width="12" height="72" fill="#ffffff" stroke="#8c959f"/>
+<path d="M494 1084H668" class="req" marker-end="url(#arrow)"/>
+<text x="510" y="1076" class="lbl h">hands off the question</text>
+<text x="514" y="1102" class="note h">not logged</text>
+<text x="30" y="1124" class="time">00:03:25</text>
+<path d="M682 1120H870" class="req" marker-end="url(#arrow)"/>
+<text x="698" y="1112" class="lbl h">SELECT … revenue</text>
+<rect x="871" y="1115" width="10" height="10" class="sq"/>
+<path d="M874 1146H684" class="retline" marker-end="url(#arrow)"/>
+<text x="700" y="1138" class="retlbl h">1 row: A013, revenue masked</text>
+<text x="30" y="1212" class="time">00:03:48</text>
+<path d="M482 1208H114" class="retline" marker-end="url(#arrow)"/>
+<text x="130" y="1200" class="retlbl h">last poll: completed, final_answer, query_items null</text>
+<text x="36" y="1250" class="note h">46 s in all. No genie_get_query_result calls. Bob's SQL appears only in Query History, under client application Databricks SQL Genie Space.</text>
+<path d="M24 1274H976" stroke="#d0d7de"/>
+<circle cx="40" cy="1298" r="5" class="dot"/>
+<text x="56" y="1302" class="lbl">Unity Gateway checked EXECUTE on system.ai.genie_one_mcp and logged the call in system.ai_gateway.usage.</text>
+<text x="56" y="1320" class="note">David's calls stop here with HTTP 403 and are logged in system.access.audit.</text>
+<rect x="35" y="1335" width="10" height="10" class="sq"/>
+<text x="56" y="1344" class="lbl">The warehouse ran the statement as the user who asked, with Unity Catalog's row filter and masks for that user.</text>
+<text x="56" y="1362" class="note">Query History recorded it with the user, the client application, the status, and any error.</text>
+</svg>
